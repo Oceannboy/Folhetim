@@ -1,6 +1,6 @@
 # Folhetim
 
-Plataforma de streaming de novelas (projeto de faculdade, etapa 1).
+Plataforma de streaming de novelas (Projeto avaliativo de Interação Humano Computador, etapa 1).
 
 ## Como rodar
 1. Instale o Node.js (versão 18 ou mais nova)
