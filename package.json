@@ -1,0 +1,16 @@
+{
+  "name": "folhetim",
+  "version": "1.0.0",
+  "description": "Plataforma de streaming de novelas - projeto iniciante",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^13.2.0",
+    "express": "^5.3.0"
+  }
+}

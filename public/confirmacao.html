@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <script src="app.js"></script>
+  <title>Folhetim - Assinatura confirmada</title>
+</head>
+<body>
+  <!-- TELA 5 - CONFIRMAÇÃO (passo 3 de 3) -->
+  <main class="tela">
+    <header id="cabecalho" data-modo="assinatura"></header>
+
+    <div class="passo"><h1>Passo 3 de 3</h1></div>
+    <div class="progresso"><span style="width: 100%"></span></div>
+
+    <h1 class="pronto">PRONTO!</h1>
+    <div class="check-grande">✓</div>
+    <h2 class="confirmada">Assinatura confirmada!</h2>
+
+    <section class="resumo" id="resumo" hidden></section>
+
+    <a class="assistir" href="index.html">
+      <span class="circulo"><i class="play pequeno"></i></span>
+      <span class="texto">Assistir agora</span>
+    </a>
+
+    <a class="voltar-inicio" href="index.html">Voltar ao início</a>
+  </main>
+
+  <script>
+    async function carregar() {
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) return;
+      const resposta = await fetch('/api/assinaturas/' + id);
+      if (!resposta.ok) return;
+      const a = await resposta.json();
+      const resumo = document.getElementById('resumo');
+      resumo.innerHTML = `Plano ${esc(a.plano)} · R$${preco(a.preco)}<br>Renova em ${dataBR(a.data_renovacao)}`;
+      resumo.hidden = false;
+    }
+    carregar();
+  </script>
+</body>
+</html>

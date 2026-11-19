@@ -1,0 +1,275 @@
+/* ===== Folhetim - estilo compartilhado por todas as telas ===== */
+:root {
+  --bordo: #7A1F3D;
+  --dourado: #F2B544;
+  --fundo: #1B1220;
+  --superficie: #2A1B33;
+  --creme: #FFF7F0;
+  --lilas: #B8AEBB;
+  --verde: #3DBE7A;
+  --cinza: #D9D9D9;
+  --texto-escuro: #2A2230;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0E0912; color: var(--creme); font-family: var(--sans); }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* A "tela" tem a largura de um celular (390 px) como no Figma */
+.tela {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px 18px 24px;
+  background: var(--fundo);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ----- Cabeçalho ----- */
+.cab { display: flex; align-items: center; gap: 10px; }
+.cab-assinatura { justify-content: space-between; }
+
+.logo {
+  width: 50px; height: 50px; flex: none;
+  border-radius: 50%;
+  background: var(--bordo);
+  color: var(--dourado);
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+  font: 700 30px var(--serif);
+}
+/* Triângulo do logo. Aponta para a esquerda, como no Figma. */
+.logo i {
+  width: 0; height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 10px solid var(--dourado);
+}
+
+.busca {
+  flex: 1; min-width: 0; height: 40px;
+  border: 0; border-radius: 20px;
+  padding: 0 10px;
+  background: var(--lilas);
+  color: var(--texto-escuro);
+  font: 500 12.5px var(--sans);
+}
+.busca::placeholder { color: var(--texto-escuro); opacity: 1; }
+.busca:focus { outline: 2px solid var(--dourado); }
+
+.perfil {
+  width: 54px; height: 54px; flex: none;
+  border-radius: 50%;
+  background: var(--lilas);
+  overflow: hidden;
+}
+.perfil svg { width: 100%; height: 100%; display: block; }
+
+.titulo-pilula {
+  background: #2E2336;
+  color: var(--dourado);
+  border-radius: 16px;
+  padding: 2px 14px;
+  font: 700 26px var(--serif);
+  letter-spacing: .5px;
+}
+
+/* ----- Títulos de seção ----- */
+.secao {
+  font: 700 28px var(--serif);
+  text-align: center;
+  margin: 14px 0 10px;
+}
+
+/* ----- Seta de voltar ----- */
+.seta {
+  width: 28px; height: 28px; flex: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; line-height: 1;
+}
+.linha-titulo { display: flex; align-items: center; gap: 10px; margin: 10px 0 6px; }
+.linha-titulo h1 { font: 700 26px var(--serif); }
+.linha-titulo.centro h1 { flex: 1; text-align: center; padding-right: 38px; }
+
+/* ----- Imagens (com fundo alternativo se o arquivo não existir) ----- */
+.img { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: inherit; background: var(--superficie); }
+.img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.img img.topo { object-position: 50% 4%; }
+.img .fallback { display: none; }
+.img.sem-img {
+  display: flex; align-items: center; justify-content: center;
+  padding: 10px; text-align: center;
+  background: linear-gradient(135deg, var(--bordo), var(--superficie));
+}
+.img.sem-img .fallback { display: block; font: 700 22px var(--serif); color: var(--dourado); }
+
+/* ----- Tela 1: Início ----- */
+.chips { display: flex; gap: 8px; }
+.chip {
+  flex: 1; height: 34px;
+  border: 0; border-radius: 17px;
+  background: var(--lilas);
+  color: var(--texto-escuro);
+  font: 500 14.5px var(--sans);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.destaque { position: relative; display: block; height: 215px; border-radius: 16px; overflow: hidden; }
+.btn-ver {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  width: 150px; height: 44px; border-radius: 22px;
+  background: rgba(30, 20, 36, .7);
+  color: var(--dourado);
+  font: 700 17px var(--sans);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.fileira { display: flex; gap: 18px; overflow-x: auto; margin-right: -18px; padding-right: 18px; scrollbar-width: none; }
+.fileira::-webkit-scrollbar { display: none; }
+.poster { flex: none; width: 104px; height: 182px; border-radius: 12px; overflow: hidden; }
+.poster .img.sem-img .fallback { font-size: 16px; }
+
+.barra { margin-top: auto; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.pilula {
+  flex: 1 1 0; min-width: 0; height: 32px; padding: 0 6px;
+  border: 0; border-radius: 16px;
+  background: var(--lilas);
+  color: var(--texto-escuro);
+  font: 500 12.5px var(--sans);
+  white-space: nowrap;
+  display: flex; align-items: center; justify-content: center;
+}
+.sug { position: relative; }
+.sug-botao {
+  width: 68px; height: 68px;
+  border: 0; border-radius: 50%;
+  background: var(--bordo);
+  display: flex; align-items: center; justify-content: center;
+}
+.balao {
+  position: absolute; bottom: 82px; left: 50%; transform: translateX(-58%);
+  background: var(--lilas); color: var(--texto-escuro);
+  border-radius: 16px; padding: 8px 14px;
+  font: 500 14px var(--sans); white-space: nowrap;
+}
+.balao::after {
+  content: ''; position: absolute; bottom: -8px; right: 24px;
+  border-left: 8px solid transparent; border-right: 8px solid transparent;
+  border-top: 8px solid var(--lilas);
+}
+
+/* Triângulo de "play" dourado. No Figma ele aponta para a esquerda.
+   Para apontar para a direita, troque border-right por border-left. */
+.play {
+  width: 0; height: 0;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  border-right: 30px solid var(--dourado);
+}
+.play.pequeno { border-top-width: 15px; border-bottom-width: 15px; border-right-width: 25px; }
+
+/* ----- Tela 2: Catálogo ----- */
+.lista { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.banner { display: block; height: 116px; border-radius: 16px; overflow: hidden; }
+.aviso { text-align: center; color: var(--lilas); font: 400 16px var(--serif); margin-top: 20px; }
+.filtro-ativo { text-align: center; color: var(--dourado); font: 600 15px var(--serif); margin-bottom: 8px; }
+
+/* ----- Tela 3: Detalhes ----- */
+.linha-forte { border: 0; height: 4px; background: #E3DDE2; margin: 2px -18px 14px; }
+.foto-detalhe { height: 250px; border-radius: 24px; overflow: hidden; }
+.cartao { background: var(--creme); color: #111; border-radius: 20px; padding: 12px 14px; margin-top: 18px; }
+.cartao h2 { font: 700 20px var(--serif); text-align: center; }
+.cartao .dados { font: 700 17px var(--serif); text-decoration: underline; text-align: center; margin: 10px 0; }
+.sinopse { background: #E4DCDD; border-radius: 12px; padding: 10px 12px; font: 400 18px var(--serif); text-align: center; line-height: 1.25; }
+.titulo-sublinhado { font: 700 28px var(--serif); text-decoration: underline; margin: 16px 0 8px; }
+.capitulos { display: flex; flex-direction: column; gap: 12px; }
+.cap {
+  height: 52px; padding: 0 18px;
+  border-radius: 26px;
+  background: #A7A3AA; color: #1A1420;
+  font: 600 16px var(--sans); text-transform: uppercase;
+  display: flex; align-items: center;
+}
+.rodape-fixo { position: sticky; bottom: 0; margin-top: auto; padding-top: 16px; background: linear-gradient(transparent, var(--fundo) 30%); }
+
+/* ----- Tela 4: Assinatura ----- */
+.passo { display: flex; align-items: center; gap: 8px; margin: 10px 0 8px; }
+.passo h1 { font: 700 24px var(--serif); }
+.progresso { height: 8px; border-radius: 4px; background: var(--cinza); overflow: hidden; margin-bottom: 14px; }
+.progresso span { display: block; height: 100%; background: var(--dourado); border-radius: 4px; }
+.titulo-tela { font: 700 24px var(--serif); margin-bottom: 8px; }
+
+.plano-wrap { margin-bottom: 12px; }
+.etiqueta { display: block; margin: 0 0 2px 10px; color: var(--dourado); font: 600 15px var(--serif); }
+.caixa { position: relative; }
+.plano {
+  width: 100%; height: 76px;
+  border: 6px solid transparent; border-radius: 18px;
+  background: var(--creme); color: #111;
+  font: 400 22px var(--serif);
+}
+.plano b { font-weight: 700; }
+.plano.sel { border-color: var(--dourado); }
+.selo {
+  position: absolute; top: -8px; right: -6px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bordo); color: var(--verde);
+  font: 900 15px var(--sans);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.sub-titulo { font: 700 26px var(--serif); margin-top: 18px; }
+.pergunta { font: 400 15px var(--serif); margin-bottom: 10px; }
+.pagto { display: flex; gap: 14px; }
+.pagto .caixa { flex: 1; }
+.opcao {
+  width: 100%; height: 46px;
+  border: 4px solid transparent; border-radius: 23px;
+  background: var(--cinza); color: #111;
+  font: 700 20px var(--serif);
+}
+.opcao.sel { border-color: var(--bordo); }
+.total { font: 700 24px var(--serif); color: var(--dourado); margin: 16px 0 14px; }
+.btn-ouro {
+  width: 100%; height: 56px;
+  border: 0; border-radius: 28px;
+  background: var(--dourado); color: var(--fundo);
+  font: 700 24px var(--serif);
+}
+.btn-ouro:disabled { opacity: .6; cursor: wait; }
+.aviso-cancelar { text-align: center; font: 400 17px var(--serif); margin-top: 12px; }
+.erro { color: #ff9b9b; text-align: center; font: 400 15px var(--serif); margin-top: 10px; min-height: 18px; }
+
+/* ----- Tela 5: Confirmação ----- */
+.pronto { font: 700 64px var(--serif); text-align: center; line-height: 1.1; margin-top: 10px; }
+.check-grande {
+  width: 92px; height: 92px; margin: 8px auto;
+  border-radius: 50%; background: var(--bordo); color: var(--verde);
+  font: 900 56px var(--sans);
+  display: flex; align-items: center; justify-content: center;
+}
+.confirmada { font: 700 52px var(--serif); text-align: center; line-height: 1.15; margin: 6px 0 18px; }
+.resumo {
+  background: var(--bordo); color: var(--dourado);
+  border-radius: 16px; padding: 12px 10px;
+  font: 700 24px var(--serif); text-align: center; line-height: 1.3;
+}
+.assistir { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 22px 0 16px; }
+.assistir .circulo {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--bordo);
+  display: flex; align-items: center; justify-content: center;
+}
+.assistir .texto { color: var(--dourado); font: 700 24px var(--serif); text-decoration: underline; text-transform: uppercase; }
+.voltar-inicio {
+  align-self: center;
+  background: #4A4350; color: #fff;
+  border-radius: 22px; padding: 6px 24px;
+  font: italic 400 22px var(--serif);
+}

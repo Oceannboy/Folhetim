@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <script src="app.js"></script>
+  <title>Folhetim - Assinatura</title>
+</head>
+<body>
+  <!-- TELA 4 - ASSINATURA (passo 2 de 3) -->
+  <main class="tela">
+    <header id="cabecalho" data-modo="assinatura"></header>
+
+    <div class="passo">
+      <script>document.write(seta('detalhes.html'));</script>
+      <h1>Passo 2 de 3</h1>
+    </div>
+    <div class="progresso"><span style="width: 66.6%"></span></div>
+
+    <h2 class="titulo-tela">Assine e comece a assistir</h2>
+    <section id="planos"></section>
+
+    <h2 class="sub-titulo">Forma de Pagamento</h2>
+    <p class="pergunta">Como prefere pagar?</p>
+    <div class="pagto" id="pagto"></div>
+
+    <p class="total" id="total"></p>
+
+    <button class="btn-ouro" id="confirmar">Confirmar Assinatura</button>
+    <p class="aviso-cancelar">Cancele quando quiser</p>
+    <p class="erro" id="erro"></p>
+  </main>
+
+  <script>
+    const FORMAS = ['Pix', 'Boleto', 'Cartão'];
+    let planos = [];
+    let planoEscolhido = null;
+    let formaEscolhida = 'Cartão';
+
+    function desenhar() {
+      document.getElementById('planos').innerHTML = planos.map((p) => `
+        <div class="plano-wrap">
+          ${p.nome === 'Anual' ? '<span class="etiqueta">Mais econômico</span>' : ''}
+          <div class="caixa">
+            <button class="plano ${p.id === planoEscolhido ? 'sel' : ''}" onclick="escolherPlano(${p.id})">
+              • <b>${esc(p.nome)}</b>, R$${preco(p.preco)} por ${esc(p.periodo)}
+            </button>
+            ${p.id === planoEscolhido ? '<span class="selo">✓</span>' : ''}
+          </div>
+        </div>`).join('');
+
+      document.getElementById('pagto').innerHTML = FORMAS.map((f) => `
+        <div class="caixa">
+          <button class="opcao ${f === formaEscolhida ? 'sel' : ''}" onclick="escolherForma('${f}')">${f}</button>
+          ${f === formaEscolhida ? '<span class="selo">✓</span>' : ''}
+        </div>`).join('');
+
+      const plano = planos.find((p) => p.id === planoEscolhido);
+      document.getElementById('total').textContent = plano ? 'Total hoje: R$ ' + preco(plano.preco) : '';
+    }
+
+    function escolherPlano(id) { planoEscolhido = id; desenhar(); }
+    function escolherForma(forma) { formaEscolhida = forma; desenhar(); }
+
+    document.getElementById('confirmar').onclick = async () => {
+      const botao = document.getElementById('confirmar');
+      const erro = document.getElementById('erro');
+      erro.textContent = '';
+      botao.disabled = true;
+      try {
+        const resposta = await fetch('/api/assinaturas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plano_id: planoEscolhido, forma_pagamento: formaEscolhida })
+        });
+        const dados = await resposta.json();
+        if (!resposta.ok) throw new Error(dados.erro || 'Não foi possível assinar');
+        location.href = 'confirmacao.html?id=' + dados.id;
+      } catch (e) {
+        erro.textContent = e.message;
+        botao.disabled = false;
+      }
+    };
+
+    async function carregar() {
+      planos = await fetch('/api/planos').then((r) => r.json());
+      const anual = planos.find((p) => p.nome === 'Anual') || planos[0];
+      planoEscolhido = anual ? anual.id : null;
+      desenhar();
+    }
+    carregar();
+  </script>
+</body>
+</html>

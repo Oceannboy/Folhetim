@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <script src="app.js"></script>
+  <title>Folhetim - Detalhes</title>
+</head>
+<body>
+  <!-- TELA 3 - DETALHES -->
+  <main class="tela">
+    <header id="cabecalho" data-modo="busca"></header>
+
+    <div class="linha-titulo">
+      <script>document.write(seta('catalogo.html'));</script>
+      <h1>Detalhes</h1>
+    </div>
+    <hr class="linha-forte">
+
+    <div id="conteudo"></div>
+
+    <div class="rodape-fixo">
+      <a class="btn-ouro" id="assistir" href="assinatura.html"
+         style="display:flex;align-items:center;justify-content:center;">Assistir</a>
+    </div>
+  </main>
+
+  <script>
+    async function carregar() {
+      const id = new URLSearchParams(location.search).get('id') || 1;
+      const resposta = await fetch('/api/novelas/' + id);
+      const conteudo = document.getElementById('conteudo');
+
+      if (!resposta.ok) {
+        conteudo.innerHTML = '<p class="aviso">Novela não encontrada.</p>';
+        return;
+      }
+      const n = await resposta.json();
+      document.getElementById('assistir').href = 'assinatura.html?novela=' + n.id;
+
+      const capitulos = n.capitulos.length
+        ? n.capitulos.map((c) => `<div class="cap">${String(c.numero).padStart(2, '0')} - ${esc(c.titulo)}</div>`).join('')
+        : '<p class="aviso">Os capítulos desta novela serão cadastrados em breve.</p>';
+
+      conteudo.innerHTML = `
+        <div class="foto-detalhe">${imagem('destaque', n.titulo)}</div>
+
+        <section class="cartao">
+          <h2>${esc(n.titulo.toUpperCase())}</h2>
+          <p class="dados">${esc(n.categoria)} - ${n.total_capitulos} capítulos - ${esc(n.classificacao)}</p>
+          <p class="sinopse">Sinopse: ${esc(n.sinopse)}</p>
+        </section>
+
+        <h2 class="titulo-sublinhado">CAPÍTULOS</h2>
+        <div class="capitulos">${capitulos}</div>`;
+    }
+    carregar();
+  </script>
+</body>
+</html>

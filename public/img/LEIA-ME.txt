@@ -1,0 +1,22 @@
+IMAGENS DAS NOVELAS (formato .jpg)
+
+O nome do arquivo é o título da novela em minúsculas, sem acento e com hífen no lugar dos espaços.
+Se uma imagem não existir, a tela mostra um fundo bordô com o título da novela.
+
+destaque/   banner grande com o título (Início e Detalhes)
+    coracao-de-cerrado.jpg
+
+capa/       capas verticais da fileira "Em alta agora" (Início)
+    heranca-de-sangue.jpg
+    a-dama-do-tocantins.jpg
+    amor-em-tempo-de-chuva.jpg
+
+banner/     banners largos da "Lista de Novelas" (Catálogo)
+    coracao-de-cerrado.jpg   (se faltar, usa a imagem da pasta destaque)
+    heranca-de-sangue.jpg
+    a-dama-do-tocantins.jpg
+    amor-em-tempo-de-chuva.jpg
+    rio-das-promessas.jpg    (ainda falta enviar)
+    veu-de-esmeralda.jpg
+
+Para trocar uma imagem, substitua o arquivo mantendo o mesmo nome.

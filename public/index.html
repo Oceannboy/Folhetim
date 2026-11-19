@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <script src="app.js"></script>
+  <title>Folhetim - Início</title>
+</head>
+<body>
+  <!-- TELA 1 - INÍCIO -->
+  <main class="tela">
+    <header id="cabecalho" data-modo="busca"></header>
+
+    <h2 class="secao">Escolha seu clima</h2>
+    <nav class="chips">
+      <a class="chip" href="catalogo.html?categoria=Romance">Romance</a>
+      <a class="chip" href="catalogo.html?categoria=Drama">Drama</a>
+      <a class="chip" href="catalogo.html?categoria=Suspense">Suspense</a>
+      <a class="chip" href="catalogo.html?categoria=%C3%89poca">Época</a>
+    </nav>
+
+    <h2 class="secao">Em Destaque</h2>
+    <div id="destaque"></div>
+
+    <h2 class="secao">Em alta agora</h2>
+    <div class="fileira" id="alta"></div>
+
+    <footer class="barra">
+      <a class="pilula" href="catalogo.html">Acessar Catálogo</a>
+      <div class="sug">
+        <span class="balao">Que tal uma sugestão?</span>
+        <button class="sug-botao" id="sugestao" aria-label="Sugestão de novela"><i class="play"></i></button>
+      </div>
+      <a class="pilula" href="assinatura.html">Gerenciar Assinatura</a>
+    </footer>
+  </main>
+
+  <script>
+    async function carregar() {
+      const [destaque, novelas] = await Promise.all([
+        fetch('/api/novelas/destaque').then((r) => r.json()),
+        fetch('/api/novelas').then((r) => r.json())
+      ]);
+
+      // Banner "Em Destaque"
+      if (destaque) {
+        document.getElementById('destaque').innerHTML = `
+          <a class="destaque" href="detalhes.html?id=${destaque.id}">
+            ${imagem('destaque', destaque.titulo)}
+            <span class="btn-ver">Ver Novela</span>
+          </a>`;
+      }
+
+      // Fileira "Em alta agora" (todas, menos a que está em destaque)
+      const outras = novelas.filter((n) => !destaque || n.id !== destaque.id);
+      document.getElementById('alta').innerHTML = outras.map((n) => `
+        <a class="poster" href="detalhes.html?id=${n.id}">${imagem('capa', n.titulo)}</a>`).join('');
+
+      // Botão redondo: sugere uma novela qualquer
+      document.getElementById('sugestao').onclick = () => {
+        const sorteada = novelas[Math.floor(Math.random() * novelas.length)];
+        if (sorteada) location.href = 'detalhes.html?id=' + sorteada.id;
+      };
+    }
+    carregar();
+  </script>
+</body>
+</html>

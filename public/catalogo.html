@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <script src="app.js"></script>
+  <title>Folhetim - Lista de Novelas</title>
+</head>
+<body>
+  <!-- TELA 2 - CATÁLOGO -->
+  <main class="tela">
+    <header id="cabecalho" data-modo="busca"></header>
+
+    <div class="linha-titulo centro">
+      <script>document.write(seta('index.html'));</script>
+      <h1>Lista de Novelas</h1>
+    </div>
+
+    <p class="filtro-ativo" id="filtro" hidden></p>
+    <section class="lista" id="lista"></section>
+    <p class="aviso" id="vazio" hidden>Nenhuma novela encontrada.</p>
+  </main>
+
+  <script>
+    async function carregar() {
+      const params = new URLSearchParams(location.search);
+      const categoria = params.get('categoria');
+      const busca = params.get('busca');
+
+      if (categoria) {
+        const filtro = document.getElementById('filtro');
+        filtro.textContent = 'Categoria: ' + categoria;
+        filtro.hidden = false;
+      }
+
+      const url = '/api/novelas?' + params.toString();
+      const novelas = await fetch(url).then((r) => r.json());
+
+      document.getElementById('lista').innerHTML = novelas.map((n) => `
+        <a class="banner" href="detalhes.html?id=${n.id}">${imagem('banner', n.titulo)}</a>`).join('');
+      document.getElementById('vazio').hidden = novelas.length > 0;
+    }
+    carregar();
+  </script>
+</body>
+</html>
